@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="initial-scale=1.0">
+  <meta charset="utf-8">
+  <title>KML Layers</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css" media="screen" title="no title" charset="utf-8">
+  <style>
+    .map {
+      height: 400px;
+      margin: 20px 0px 20px 70px;
+      padding: 0px;
+    }
+    .legend{
+      position: absolute;
+      bottom: 0;
+      z-index: 100;
+      text-align: center;
+      padding: 5px 10px;
+      width: 100%;
+      background-color: rgba(125,125,125,0.8);
+      color: #FFF;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="row" id="mapsDiv">
+
+  </div>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBjY_khfI_F0cfjBwblr_A1_qcgZw1eVAE&signed_in=true">
+  </script>
+  <script src="js/ZipFile.complete.js"></script>
+  <script src="js/geoxmlv3.js"></script>
+
+  <script>
+    var kmlData = [{
+                	"fileName": "kmz/NATRX008_SL_to_L_SOU.kmz",
+                	"legendName": "NATRX008_SL_to_L_SOU"
+                }, {
+                	"fileName": "kmz/NATRX015_L_WAT_to_L_SS.kmz",
+                	"legendName": "NATRX015_L_WAT_to_L_SS"
+                }, {
+                	"fileName": "kmz/NATRX017_L_FAR_to_L_WAT.kmz",
+                	"legendName": "NATRX017_L_FAR_to_L_WAT"
+                }, {
+                	"fileName": "kmz/NATRX024_L_SOU_to_L_EAL.kmz",
+                	"legendName": "NATRX024_L_SOU_to_L_EAL"
+                }, {
+                	"fileName": "kmz/NATRX026_L_SS_to_L_KIN.kmz",
+                	"legendName": "NATRX026_L_SS_to_L_KIN"
+                }, {
+                	"fileName": "kmz/NATRX029_BLR_to_GI_B.kmz",
+                	"legendName": "NATRX029_BLR_to_GI_B"
+                }, {
+                	"fileName": "kmz/NATRX030_L_KIN_to_GI_B.kmz",
+                	"legendName": "NATRX030_L_KIN_to_GI_B"
+                }, {
+                	"fileName": "kmz/NATRX035_L_STE_to_L_BER.kmz",
+                	"legendName": "NATRX035_L_STE_to_L_BER"
+                }, {
+                	"fileName": "kmz/NATRX071_L_BER_to_L_KID.kmz",
+                	"legendName": "NATRX071_L_BER_to_L_KID"
+                }, {
+                	"fileName": "kmz/NATRX073_L_KID_to_L_SS.kmz",
+                	"legendName": "NATRX073_L_KID_to_L_SS"
+                }, {
+                	"fileName": "kmz/NATRX250_Core_L_FAR_to_ITX.kmz",
+                	"legendName": "NATRX250_Core_L_FAR_to_ITX"
+                }, {
+                	"fileName": "kmz/NATRX800_Core_BLR_to_EQX_LD4.kmz",
+                	"legendName": "NATRX800_Core_BLR_to_EQX_LD4"
+                }, {
+                	"fileName": "kmz/NATRX802_Core_L_EAL_to_POW.kmz",
+                	"legendName": "NATRX802_Core_L_EAL_to_POW"
+                }, {
+                	"fileName": "kmz/NATRX803_Core_POW_to_Lev3.kmz",
+                	"legendName": "NATRX803_Core_POW_to_Lev3"
+                }, {
+                	"fileName": "kmz/NATRX807_Core_ITX_to_TELN.kmz",
+                	"legendName": "NATRX807_Core ITX_to_TELN"
+                }, {
+                	"fileName": "kmz/NATRX811_Core_SAV_to_L_STE.kmz",
+                	"legendName": "NATRX811_Core_SAV_to_L_STE"
+                }];
+
+    function initMap(mapId,fileName) {
+      var map = new google.maps.Map(document.getElementById(mapId), {
+        zoom: 11,center: {lat: 0,lng: 0}
+      });
+      var myParser = new geoXML3.parser({
+        map: map
+      });
+      myParser.parse(fileName);
+    }
+
+    for(var i=0;i<kmlData.length;i++){
+      var mapId = 'map'+(i+1);
+      var mapHtml = '<div class="col-md-5 map" id='+mapId+'>';
+      document.getElementById('mapsDiv').insertAdjacentHTML('beforeend', mapHtml);
+      var fileName = kmlData[i]['fileName'];
+      initMap(mapId,fileName);
+      var legend = '<h3 class="legend">'+kmlData[i]['legendName']+'<h3>';
+      document.getElementById(mapId).insertAdjacentHTML('beforeend', legend);
+    }
+  </script>
+</body>
+
+</html>
